@@ -23,20 +23,18 @@ void move(board_t* board){
 		strcpy(dir, "left");
 	
 	rotate_ant(board, dir);
-	free(dir);
 	
-
 	// przesuniecie mrowki
 	board->ant_x += board->ant_move_x;
 	board->ant_y += board->ant_move_y;
 	
 	// zmiana koloru mrowki
-
 	change_ant_color(board);
+	
+
+	free(dir);
 	free(prev_color);
 }
-
-	
 
 int is_black(board_t* board, int row, int col){
 	if(strcmp(board->color[row][col], SQUARE_BLACK) == 0)
