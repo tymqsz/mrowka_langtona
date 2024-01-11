@@ -22,7 +22,7 @@ typedef struct{
 	int rotation_index;
 } board_t;
 
-board_t* init_board(board_t*, int, int);
+board_t* init_board(board_t*, int, int, char*);
 
 void free_board(board_t*);
 

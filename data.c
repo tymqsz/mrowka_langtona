@@ -4,8 +4,9 @@
 
 #include "data.h"
 #include "signs.h"
+#include "movement.h"
 
-board_t* init_board(board_t* new, int rows, int cols){
+board_t* init_board(board_t* new, int rows, int cols, char* ant_dir){
 	new = malloc(sizeof(*new));
 	
 	new->rows = rows;
@@ -28,9 +29,20 @@ board_t* init_board(board_t* new, int rows, int cols){
 	
 	new->ant_move_x = 0;
 	new->ant_move_y = -1;
-	
+
 	new->color_index = 0;
 	new->rotation_index = 0;
+	
+
+	/* ustawianie pozycji wyjsciowej mrowki */
+	if(strcmp(ant_dir, "right") == 0)
+		rotate_ant(new, "right");
+	else if(strcmp(ant_dir, "left") == 0)
+		rotate_ant(new, "left");
+	else if(strcmp(ant_dir, "down") == 0){
+		rotate_ant(new, "right");
+		rotate_ant(new, "right");
+	}
 
 	return new;
 }

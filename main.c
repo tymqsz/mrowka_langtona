@@ -18,8 +18,9 @@ int main(int argc, char** argv){
 
 	int rows = argc > 1 ? atoi(argv[1]) : 40;
 	int cols = argc > 2 ? atoi(argv[2]) : 40;
-	int iter = argc > 3 ? atoi(argv[3]): 1000;
-	char* fname_prefix = argc > 4 ? argv[4]: "test";
+	int iter = argc > 3 ? atoi(argv[3]) : 1000;
+	char* rotation = argc > 4 ? argv[4] : "up";
+	char* fname_prefix = argc > 5 ? argv[5]: "test";
 	
 
 	/* tworzenie nowego folderu o nazwie 
@@ -40,7 +41,7 @@ int main(int argc, char** argv){
 	/* inicjalizacja planszy oraz
 	   symulacja ruchow i zapisywanie
 	   stanow w petli */
-	board = init_board(board, rows, cols);
+	board = init_board(board, rows, cols, rotation);
 	
 	for(int i = 0; i < iter; i++){
 		/* formatowanie nazwy pliku wyjsciowego */
