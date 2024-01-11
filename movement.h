@@ -1,7 +1,7 @@
 #ifndef MOVE_H_INC
 #define MOVE_H_INC
 
-void move(board_t* board);
+int move(board_t* board);
 
 void rotate_ant(board_t* board, char* dir);
 

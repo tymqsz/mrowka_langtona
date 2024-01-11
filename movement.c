@@ -24,7 +24,7 @@ int move_xy[4][2] = {
 	-1, 0
 };
 
-void move(board_t* board){
+int move(board_t* board){
 	// zmiana koloru pola
 	char* prev_color = malloc(MAX_SIGN_LEN);
 	strcpy(prev_color, board->color[board->ant_y][board->ant_x]);
@@ -47,12 +47,17 @@ void move(board_t* board){
 	board->ant_x += board->ant_move_x;
 	board->ant_y += board->ant_move_y;
 	
+	if(board->ant_x < 0 || board->ant_x > board->cols-1 ||
+	   board->ant_y < 0 || board->ant_y > board->rows-1)
+		return 1;
 	// zmiana koloru mrowki
 	change_ant_color(board);
 	
 
 	free(dir);
 	free(prev_color);
+
+	return 0;
 }
 
 void rotate_ant(board_t* board, char* dir){

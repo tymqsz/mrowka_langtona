@@ -3,6 +3,6 @@
 
 #include "data.h"
 
-void print_board(board_t*);
+void print_to_file(FILE*, board_t*);
 
 #endif
