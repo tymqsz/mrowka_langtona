@@ -28,6 +28,9 @@ board_t* init_board(board_t* new, int rows, int cols){
 	
 	new->ant_move_x = 0;
 	new->ant_move_y = -1;
+	
+	new->color_index = 0;
+	new->rotation_index = 0;
 
 	return new;
 }

@@ -5,6 +5,25 @@
 #include "signs.h"
 #include "movement.h"
 
+/* wektor przechowujacy symbol mrowki ktorego:
+   pierwszy wymiar - okreslenie koloru,
+   drugi wymiar - okreslenie rotacji  */
+char ant_status[2][4][MAX_SIGN_LEN] = {
+	ANT_UP_WHITE, ANT_RIGHT_WHITE, ANT_DOWN_WHITE, ANT_LEFT_WHITE,
+	ANT_UP_BLACK, ANT_RIGHT_BLACK, ANT_DOWN_BLACK, ANT_LEFT_BLACK
+};
+
+/* wektor przechowujacy informacje o ruchu mrowki
+   kolejno dla pozycji UP, RIGHT, DOWN, LEFT,
+   np. move_xy[0] = [0, -1]:
+	   mrowka ruszy sie o 0 w osi x, o -1 w osi y */
+int move_xy[4][2] = {
+	0, -1,
+	1, 0,
+	0, 1,
+	-1, 0
+};
+
 void move(board_t* board){
 	// zmiana koloru pola
 	char* prev_color = malloc(MAX_SIGN_LEN);
@@ -36,134 +55,33 @@ void move(board_t* board){
 	free(prev_color);
 }
 
-int is_black(board_t* board, int row, int col){
-	if(strcmp(board->color[row][col], SQUARE_BLACK) == 0)
-		return 1;
-	return 0;
-}
-
 void rotate_ant(board_t* board, char* dir){
-	// mam nadzieje ze da sie latwiej i ladniej 
-	// stworzyc fajna liste
-
-	char* ant = board->ant_sign;
-
 	if(strcmp(dir, "right") == 0){
-		if(strcmp(ant, ANT_UP_WHITE) == 0){
-			strcpy(ant, ANT_RIGHT_WHITE);
-			board->ant_move_y = 0;
-			board->ant_move_x = 1;
-		}
-		else if(strcmp(ant, ANT_UP_BLACK) == 0){
-			strcpy(ant, ANT_RIGHT_BLACK);
-			board->ant_move_y = 0;
-			board->ant_move_x = 1;
-		}
-		else if(strcmp(ant, ANT_RIGHT_WHITE) == 0){
-			strcpy(ant, ANT_DOWN_WHITE);
-			board->ant_move_y = 1;
-			board->ant_move_x = 0;
-		}
-		else if(strcmp(ant, ANT_RIGHT_BLACK) == 0){
-			strcpy(ant, ANT_DOWN_BLACK);
-			board->ant_move_y = 1;
-			board->ant_move_x = 0;
-		}
-		else if(strcmp(ant, ANT_DOWN_WHITE) == 0){
-			strcpy(ant, ANT_LEFT_WHITE);
-			board->ant_move_y = 0;
-			board->ant_move_x = -1;
-		}
-		else if(strcmp(ant, ANT_DOWN_BLACK) == 0){
-			strcpy(ant, ANT_LEFT_BLACK);
-			board->ant_move_y = 0;
-			board->ant_move_x = -1;
-		}
-		else if(strcmp(ant, ANT_LEFT_WHITE) == 0){
-			strcpy(ant, ANT_UP_WHITE);
-			board->ant_move_y = -1;
-			board->ant_move_x = 0;
-		}
-		else if(strcmp(ant, ANT_LEFT_BLACK) == 0){
-			strcpy(ant, ANT_UP_BLACK);
-			board->ant_move_y = -1;
-			board->ant_move_x = 0;
-		}
+		board->rotation_index += 1;
+		board->rotation_index %= 4;
 	}
 	else{
-		if(strcmp(ant, ANT_UP_WHITE) == 0){
-			strcpy(ant, ANT_LEFT_WHITE);
-			board->ant_move_y = 0;
-			board->ant_move_x = -1;
-		}
-		else if(strcmp(ant, ANT_UP_BLACK) == 0){
-			strcpy(ant, ANT_LEFT_BLACK);
-
-			board->ant_move_y = 0;
-			board->ant_move_x = -1;
-		}
-		else if(strcmp(ant, ANT_RIGHT_WHITE) == 0){
-			strcpy(ant, ANT_UP_WHITE);
-			board->ant_move_y = -1;
-			board->ant_move_x = 0;
-		}
-		else if(strcmp(ant, ANT_RIGHT_BLACK) == 0){
-			strcpy(ant, ANT_UP_BLACK);
-			board->ant_move_y = -1;
-			board->ant_move_x = 0;
-		}
-		else if(strcmp(ant, ANT_DOWN_WHITE) == 0){
-			strcpy(ant, ANT_RIGHT_WHITE);
-			board->ant_move_y = 0;
-			board->ant_move_x = 1;
-		}
-		else if(strcmp(ant, ANT_DOWN_BLACK) == 0){
-			strcpy(ant, ANT_RIGHT_BLACK);
-			board->ant_move_y = 0;
-			board->ant_move_x = 1;
-		}
-		else if(strcmp(ant, ANT_LEFT_WHITE) == 0){
-			strcpy(ant, ANT_DOWN_WHITE);
-			board->ant_move_y = 1;
-			board->ant_move_x = 0;
-		}
-		else if(strcmp(ant, ANT_LEFT_BLACK) == 0){
-			strcpy(ant, ANT_DOWN_BLACK);
-			board->ant_move_y = 1;
-			board->ant_move_x = 0;
-		}
+		board->rotation_index -= 1;
+		if(board->rotation_index == -1)
+			board->rotation_index += 4;
 	}
+
+	strcpy(board->ant_sign, ant_status[board->color_index][board->rotation_index]);
+
+	board->ant_move_x = move_xy[board->rotation_index][0];
+	board->ant_move_y = move_xy[board->rotation_index][1];
 }
 
 void change_ant_color(board_t* board){
-	char* ant = board->ant_sign;
-	
-	if(strcmp(board->color[board->ant_y][board->ant_x], SQUARE_BLACK) == 0){
-		if(strcmp(ant, ANT_UP_WHITE) == 0){
-			strcpy(ant, ANT_UP_BLACK);
-		}
-		else if(strcmp(ant, ANT_RIGHT_WHITE) == 0){
-			strcpy(ant, ANT_RIGHT_BLACK);
-		}
-		else if(strcmp(ant, ANT_DOWN_WHITE) == 0){
-			strcpy(ant, ANT_DOWN_BLACK);
-		}
-		else if(strcmp(ant, ANT_LEFT_WHITE) == 0){
-			strcpy(ant, ANT_LEFT_BLACK);
-		}
-	}
-	else{
-		if(strcmp(ant, ANT_UP_BLACK) == 0){
-			strcpy(ant, ANT_UP_WHITE);
-		}
-		else if(strcmp(ant, ANT_RIGHT_BLACK) == 0){
-			strcpy(ant, ANT_RIGHT_WHITE);
-		}
-		else if(strcmp(ant, ANT_DOWN_BLACK) == 0){
-			strcpy(ant, ANT_DOWN_WHITE);
-		}
-		else if(strcmp(ant, ANT_LEFT_BLACK) == 0){
-			strcpy(ant, ANT_LEFT_WHITE);
-		}
+	char* square_color = board->color[board->ant_y][board->ant_x];
+
+	if(strcmp(square_color, SQUARE_BLACK) == 0 && board->color_index != 1 ||
+	   strcmp(square_color, SQUARE_WHITE) == 0 && board->color_index != 0){
+		if(board->color_index == 0)
+			board->color_index = 1;
+		else
+			board->color_index = 0;
+
+		strcpy(board->ant_sign, ant_status[board->color_index][board->rotation_index]);
 	}
 }
