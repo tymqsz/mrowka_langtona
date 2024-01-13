@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
+
 
 #include "data.h"
 #include "signs.h"
@@ -45,6 +47,30 @@ board_t* init_board(board_t* new, int rows, int cols, char* ant_dir){
 	}
 
 	return new;
+}
+
+board_t* init_board_with_percentage(board_t* new, int rows, int cols, char* ant_dir, int black_percentage){
+    new = init_board(new, rows, cols, ant_dir);
+
+    srand(time(NULL));
+
+    int total_cells = rows * cols;
+    int black_cells = (black_percentage * total_cells) / 100;
+
+    while (black_cells > 0) {
+        
+        //wybiera losowo wspolrzedne komorki
+        int random_row = rand() % rows;
+        int random_col = rand() % cols;
+
+        //sprawdza czy losowo wybrana komorka jest biala, jezeli tak zamienia ja na czarna
+        if (strcmp(new->color[random_row][random_col], SQUARE_WHITE) == 0) {
+            strcpy(new->color[random_row][random_col], SQUARE_BLACK);
+            black_cells--;
+        }
+    }
+
+    return new;
 }
 
 void free_board(board_t* board){
