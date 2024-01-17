@@ -1,5 +1,4 @@
 #include<stdio.h>
-#include<stdio.h>
 #include<stdlib.h>
 #include<unistd.h>
 #include<sys/stat.h>
@@ -80,6 +79,7 @@ int main(int argc, char** argv){
 	   folderze "output_files" */
 	char* directory = malloc(MAX_DIR_LEN);
 	char* output = malloc(MAX_DIR_LEN);
+	char* in_dir = malloc(MAX_DIR_LEN);
 	strcpy(directory, "output_files/");
 	
 	/* jesli folder nie istnieje
@@ -93,14 +93,13 @@ int main(int argc, char** argv){
 	/* inicjalizacja planszy oraz
 	   symulacja ruchow i zapisywanie
 	   stanow w petli */
-	board = init_board_with_percentage(board, rows, cols, rotation, percentage);
+	board = init_board(board, rows, cols, rotation);
 	if(strcmp(in_file, "none") != 0){
 		if(!flag_rows || !flag_cols){
 			printf("size of input board not specified, \nplease include -r and -c flags\n");
 			return -1;
 		}
 		
-		char* in_dir = malloc(MAX_DIR_LEN);
 		strcpy(in_dir, "input_files/");
 		strcat(in_dir, in_file);
 		FILE* file = fopen(in_dir, "r");

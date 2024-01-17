@@ -24,7 +24,7 @@ typedef struct{
 
 board_t* init_board(board_t*, int, int, char*);
 
-board_t* init_board_with_percentage(board_t* new, int rows, int cols, char* ant_dir, int black_percentage){
+board_t* init_board_with_percentage(board_t* new, int rows, int cols, char* ant_dir, int black_percentage);
 
 void free_board(board_t*);
 
