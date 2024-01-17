@@ -105,7 +105,7 @@ int main(int argc, char** argv){
 		FILE* file = fopen(in_dir, "r");
 
 		if(file == NULL){
-			printf("file %s doesnt exist\n", in_dir);
+			printf("file \"%s\" doesnt exist\n", in_dir);
 			return -1;
 		}
 
