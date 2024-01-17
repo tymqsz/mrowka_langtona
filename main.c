@@ -93,7 +93,7 @@ int main(int argc, char** argv){
 	/* inicjalizacja planszy oraz
 	   symulacja ruchow i zapisywanie
 	   stanow w petli */
-	board = init_board(board, rows, cols, rotation);
+	board = init_board_with_percentage(board, rows, cols, rotation, percentage);
 	if(strcmp(in_file, "none") != 0){
 		if(!flag_rows || !flag_cols){
 			printf("size of input board not specified, \nplease include -r and -c flags\n");

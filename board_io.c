@@ -72,29 +72,6 @@ void update_cell(int y, int x, char* sign, board_t* board){
 		strcpy(board->color[y][x], SQUARE_BLACK);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void print_to_file(FILE* f, board_t* board){
 	/* pierwszy wiersz */
 	fprintf(f, "%s", LINE_DOWN_RIGHT);
