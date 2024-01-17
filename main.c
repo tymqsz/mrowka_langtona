@@ -22,7 +22,7 @@ int main(int argc, char** argv){
     int cols = 40;
     int iter = 1000;
     char* rotation = "up";
-    char* out_file = "iter";
+    char* out_file = "none";
     int percentage = 101;  
 	char* in_file = "none";
 	int flag_rows = 0, flag_cols = 0;
@@ -114,8 +114,12 @@ int main(int argc, char** argv){
 
 	for(int i = 0; i < iter; i++){
 		/* formatowanie nazwy pliku wyjsciowego */
-		sprintf(output, "%s/%s_%03d.txt", directory, out_file, i);
-		f = fopen(output, "w");
+		if(strcmp(out_file, "none") == 0)
+			f = stdout;
+		else{
+			sprintf(output, "%s/%s_%03d.txt", directory, out_file, i);
+			f = fopen(output, "w");
+		}
 
 		print_to_file(f, board);
 		
@@ -123,11 +127,13 @@ int main(int argc, char** argv){
 		bounds_reached = move(board);
 		if(bounds_reached){
 			printf("bounds reached\n");
-			fclose(f);
+			if(strcmp(out_file, "none") != 0)
+				fclose(f);
 			break;
 		}
 
-		fclose(f);
+		if(strcmp(out_file, "none") != 0)
+			fclose(f);
 	}
 
 
