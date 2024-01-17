@@ -21,7 +21,60 @@ int main(int argc, char** argv){
 	int iter = argc > 3 ? atoi(argv[3]) : 1000;
 	char* rotation = argc > 4 ? argv[4] : "up";
 	char* fname_prefix = argc > 5 ? argv[5]: "test";
-	
+	int percentage = argc > 6 ? argv[6]: 101;
+
+//propozycja getopta
+	int rows = 40;
+	int cols = 40;
+	int iter = 1000;
+	char* rotation = "up";
+	char* fname_prefix = "test";
+	int percentage = 101;
+	//w dalszym kodzie mozna zalozyc, ze jezeli percentage>100 to funkcja z procentem nie bedzie wykonywana
+
+	int c;
+
+	opterr = 0;
+
+	while ((c = getopt (argc, argv, "abc:")) != -1)
+		switch (c)
+      		{
+			case 'rows':
+        			rowsvalue = optarg;
+        			break;
+			
+      			case 'cols':
+        			colsvalue = optarg;
+        			break;
+			
+      			case 'iter':
+        			itervalue = optarg;
+        			break;
+			
+      			case 'rotation':
+        			rotationvalue = optarg;
+        			break;
+			
+      			case 'fname_prefix':
+        			fname_prefixvalue = optarg;
+        			break;
+			
+      			case 'percentage':
+        			percentagevalue = optarg;
+        			break;
+			
+      			case '?':
+        			if (optopt == 'c')
+          				fprintf (stderr, "Opcja -%c wymaga argumentu.\n", optopt);
+        			else if (isprint (optopt))
+          				fprintf (stderr, "Nieznana opcja `-%c'.\n", optopt);
+				else
+          				fprintf (stderr, "Nieznana opcja `\\x%x'.\n", optopt);
+        				return 1;
+      			default:
+        			abort ();
+      		}
+//koniec getopta
 
 	/* tworzenie nowego folderu o nazwie 
 	   podanego prefixu w istniejacym
