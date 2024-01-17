@@ -1,5 +1,5 @@
 # Funkcjonalnosc programu
-Program sluzy do symulacji mrowki langtona,
+Program sluzy do symulacji mrowki langtona,<bl>
 pozwala na zapisywanie stanow planszy do plikow
 oraz wczytywanie stanow planszy z plikow wejsciowych
 
