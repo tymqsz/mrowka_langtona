@@ -51,6 +51,9 @@ board_t* init_board(board_t* new, int rows, int cols, char* ant_dir){
 
 board_t* init_board_with_percentage(board_t* new, int rows, int cols, char* ant_dir, int black_percentage){
     new = init_board(new, rows, cols, ant_dir);
+	
+	if(black_percentage >= 100)
+		return new;
 
     srand(time(NULL));
 
